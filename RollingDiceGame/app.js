@@ -9,21 +9,12 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, dice;
+var scores, roundScore, activePlayer;
 
 scores = [0, 0];
 roundScore = 0;
 activePlayer = 0;
 
-// dice = Math.floor(Math.random() * 6) + 1;
-
-
-
-// document.querySelector("#current-" + activePlayer).textContent = dice;
-// // document.querySelector("#current-" + activePlayer).innerHTML = "<em>" + dice + "</em>";
-
-// var x = document.querySelector("#score-0").textContent;
-// console.log(x);
 function setClassName(activePlayer, active) {
   if (active === 0)
     return "player-" + activePlayer + "-panel";
@@ -32,49 +23,34 @@ function setClassName(activePlayer, active) {
 }
 
 function switchPlayer(activePlayer) {
-
   var classname = setClassName(activePlayer, 0);
   document.querySelector(".player-" + activePlayer + "-panel").className = classname;
   document.querySelector("#current-" + activePlayer).textContent = "0";
-  if (activePlayer == 0) {
-    activePlayer = 1;
-  } else {
-    activePlayer = 0;
-  }
+  activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
   classname = setClassName(activePlayer, 1);
   document.querySelector(".player-" + activePlayer + "-panel").className = classname;
   document.querySelector(".dice").setAttribute("style", "display:none");
   return activePlayer;
 }
 
+function setScore(dice) {
+  dice === 1 ? roundScore = 0 : roundScore += dice;
+  document.getElementById("current-" + activePlayer).textContent = roundScore;
+}
 
 function changeImg(dice) {
   var image = document.querySelector(".dice");
-  if (dice === 1) {
-    image.onload = function () {
-      document.querySelector(".dice").setAttribute("style", "display:inline");
-      roundScore = 0;
-      document.getElementById("current-" + activePlayer).textContent = roundScore;
-      setTimeout(function(){activePlayer = switchPlayer(activePlayer);}, 300);
-    };
-  } else {
-    image.onload = function () {
-      document.querySelector(".dice").setAttribute("style", "display:inline");
-      roundScore += dice;
-      document.getElementById("current-" + activePlayer).textContent = roundScore;
-    };
+  image.onload = function () {
+    document.querySelector(".dice").setAttribute("style", "display:inline");
+    if (dice === 1) {
+      setTimeout(function () { activePlayer = switchPlayer(activePlayer); }, 300);
+    }
   }
   image.src = "dice-" + dice + ".png";
-  // image.onload = function () {
-
-  //   if (dice == 1)
-  //     document.querySelector(".dice").setAttribute("style", "display:none");
-  // }
 }
 
 function cleanUp(activePlayer) {
   var buttons = document.getElementsByTagName("button");
-
   for (var i = 0; i < buttons.length; i++) {
     if (buttons[i].id === "btn-new")
       continue;
@@ -100,9 +76,9 @@ function reset(classname, setValue) {
 
 document.getElementById("btn-roll").onclick = function () {
   roundeScore = parseInt(document.querySelector("#current-" + activePlayer).textContent);
-  dice = Math.floor(Math.random() * 6) + 1;
+  var dice = Math.floor(Math.random() * 6) + 1;
   changeImg(dice);
-  // roundScore += dice;
+  setScore(dice);
 };
 
 document.getElementById("btn-hold").onclick = function () {
