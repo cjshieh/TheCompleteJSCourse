@@ -15,20 +15,11 @@ scores = [0, 0];
 roundScore = 0;
 activePlayer = 0;
 
-function setClassName(activePlayer, active) {
-  if (active === 0)
-    return "player-" + activePlayer + "-panel";
-  else
-    return "player-" + activePlayer + "-panel active";
-}
-
 function switchPlayer(activePlayer) {
-  var classname = setClassName(activePlayer, 0);
-  document.querySelector(".player-" + activePlayer + "-panel").className = classname;
+  document.querySelector(".player-" + activePlayer + "-panel").classList.remove('active');
   document.querySelector("#current-" + activePlayer).textContent = "0";
   activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-  classname = setClassName(activePlayer, 1);
-  document.querySelector(".player-" + activePlayer + "-panel").className = classname;
+  document.querySelector(".player-" + activePlayer + "-panel").classList.add('active');
   document.querySelector(".dice").setAttribute("style", "display:none");
   return activePlayer;
 }
