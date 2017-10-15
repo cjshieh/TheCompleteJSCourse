@@ -14,28 +14,34 @@ var scores, roundScore, activePlayer;
 scores = [0, 0];
 roundScore = 0;
 activePlayer = 0;
+previousDice = 0;
 
-function switchPlayer(activePlayer) {
+function switchPlayer() {
   document.querySelector(".player-" + activePlayer + "-panel").classList.remove('active');
   document.querySelector("#current-" + activePlayer).textContent = "0";
   activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
   document.querySelector(".player-" + activePlayer + "-panel").classList.add('active');
   document.querySelector(".dice").setAttribute("style", "display:none");
-  return activePlayer;
 }
 
 function setScore(dice) {
-  dice === 1 ? roundScore = 0 : roundScore += dice;
-  document.getElementById("current-" + activePlayer).textContent = roundScore;
+  if (previousDice === 6 && dice === 6) {
+    scores[activePlayer] = 0;
+    document.querySelector("#score-" + activePlayer).textContent = scores[activePlayer];
+  } else {
+    dice === 1 ? roundScore = 0 : roundScore += dice;
+    document.getElementById("current-" + activePlayer).textContent = roundScore;
+  }
 }
 
 function changeImg(dice) {
   var image = document.querySelector(".dice");
   image.onload = function () {
     document.querySelector(".dice").setAttribute("style", "display:inline");
-    if (dice === 1) {
-      setTimeout(function () { activePlayer = switchPlayer(activePlayer); }, 300);
+    if (dice === 1 || (previousDice === 6 && dice === 6)) {
+      setTimeout(function () { switchPlayer(); }, 300);
     }
+    previousDice = dice;
   }
   image.src = "dice-" + dice + ".png";
 }
@@ -68,8 +74,9 @@ function reset(classname, setValue) {
 document.getElementById("btn-roll").onclick = function () {
   roundeScore = parseInt(document.querySelector("#current-" + activePlayer).textContent);
   var dice = Math.floor(Math.random() * 6) + 1;
-  changeImg(dice);
   setScore(dice);
+  changeImg(dice);
+  // setScore(dice);
 };
 
 document.getElementById("btn-hold").onclick = function () {
@@ -78,7 +85,7 @@ document.getElementById("btn-hold").onclick = function () {
   if (scores[activePlayer] >= 100) {
     cleanUp(activePlayer);
   } else {
-    activePlayer = switchPlayer(activePlayer);
+    switchPlayer();
   }
   roundScore = 0;
 };
@@ -98,3 +105,11 @@ document.getElementById("btn-new").onclick = function () {
   roundScore = 0;
   activePlayer = 0;
 };
+
+/* YOUR 3 CHALLENGES
+ * Change the game with three rules:
+ *
+ * 1. A player loses ENTIRE score when he rolls two 6 in a row. After that, it't the next player's turn
+ * 2. Add an input field to the HTML where players can set the winning score , so that they can change the predefined score of 100.
+ * 3. Add another dice to the game, so that there are two dices now.  They player loses his current score when one of them is a 1.
+ */
