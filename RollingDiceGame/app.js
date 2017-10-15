@@ -8,6 +8,13 @@ GAME RULES:
 - The first player to reach 100 points on GLOBAL score wins the game
 
 */
+/* YOUR 3 CHALLENGES
+ * Change the game with three rules:
+ *
+ * 1. A player loses ENTIRE score when he rolls two 6 in a row. After that, it't the next player's turn
+ * 2. Add an input field to the HTML where players can set the winning score , so that they can change the predefined score of 100.
+ * 3. Add another dice to the game, so that there are two dices now.  They player loses his current score when one of them is a 1.
+ */
 
 var scores, roundScore, activePlayer;
 
@@ -15,6 +22,7 @@ scores = [0, 0];
 roundScore = 0;
 activePlayer = 0;
 previousDice = 0;
+finalScore = 0;
 
 function switchPlayer() {
   document.querySelector(".player-" + activePlayer + "-panel").classList.remove('active');
@@ -80,14 +88,17 @@ document.getElementById("btn-roll").onclick = function () {
 };
 
 document.getElementById("btn-hold").onclick = function () {
+  finalScore = document.getElementById("final-score").value;
+  finalScore == "" ? finalScore = 100 : finalScore;
   scores[activePlayer] += roundScore;
   document.querySelector("#score-" + activePlayer).textContent = scores[activePlayer];
-  if (scores[activePlayer] >= 100) {
+  if (scores[activePlayer] >= finalScore) {
     cleanUp(activePlayer);
   } else {
     switchPlayer();
   }
   roundScore = 0;
+  document.getElementById("final-score").readOnly = true;
 };
 
 document.getElementById("btn-new").onclick = function () {
@@ -104,12 +115,5 @@ document.getElementById("btn-new").onclick = function () {
   scores = [0, 0];
   roundScore = 0;
   activePlayer = 0;
+  document.getElementById("final-score").readOnly = false;
 };
-
-/* YOUR 3 CHALLENGES
- * Change the game with three rules:
- *
- * 1. A player loses ENTIRE score when he rolls two 6 in a row. After that, it't the next player's turn
- * 2. Add an input field to the HTML where players can set the winning score , so that they can change the predefined score of 100.
- * 3. Add another dice to the game, so that there are two dices now.  They player loses his current score when one of them is a 1.
- */
