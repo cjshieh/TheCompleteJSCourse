@@ -7,3 +7,7 @@
 
 # Untrack pdf
 *.pdf
+*.html
+*.css
+*.png
+*.jpg
