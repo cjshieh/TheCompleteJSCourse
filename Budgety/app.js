@@ -1,5 +1,27 @@
 var budgetController = (function () {
+  function Expense(id, description, value) {
+    this.id = id;
+    this.description = description;
+    this.value = value;
+  }
 
+  function Income(id, description, value) {
+    this.id = id;
+    this.description = description;
+    this.value = value;
+  }
+
+  var budgetData = {
+    allItems: {
+      exp: [],
+      inc: []
+    },
+    tota: {
+      exp: 0,
+      inc: 0
+    }
+  }
+  
 })();
 
 var UIController = (function () {
