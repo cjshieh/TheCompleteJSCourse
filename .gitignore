@@ -4,5 +4,6 @@
 # Untrack theory lecture folder
 3-How-JS-Works/*
 5-Advanced-JS/*
-Budgety/*.pdf
 
+# Untrack pdf
+*.pdf
