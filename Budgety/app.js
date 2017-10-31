@@ -134,12 +134,15 @@ var UIController = (function () {
         element.value = '';
       })
     },
-
+    deleteListItem: function (selectorID) {
+      var domEl = document.getElementById(selectorID);
+      domEl.parentNode.removeChild(domEl);
+    },
     displayBudget: function (obj) {
       document.querySelector(DOMSTRINGS.budgetLabel).textContent = obj.budget;
       document.querySelector(DOMSTRINGS.incomeLabel).textContent = obj.totalInc;
       document.querySelector(DOMSTRINGS.expenseLabel).textContent = obj.totalExp;
-      if(obj.percentage > 0)
+      if(obj.percentage > 0 && obj.percentage < 100)
         document.querySelector(DOMSTRINGS.percentLabel).textContent = obj.percentage + '%';
       else
         document.querySelector(DOMSTRINGS.percentLabel).textContent = '---';
@@ -203,8 +206,9 @@ var controller = (function (budgetCtrl, UICtrl) {
       // 1. delete the item in the data structure
       budgetCtrl.deleteItem(type, id);
       // 2. delete the item from UI
-
+      UICtrl.deleteListItem(itemID);
       // 3. update and show the new budget
+      updateBudget();
     }
   };
 
