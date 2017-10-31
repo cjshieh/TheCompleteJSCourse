@@ -60,7 +60,7 @@ var UIController = (function () {
       return {
         type: document.querySelector(DOMSTRINGS.inputType).value, //will be either inc or exp
         description: document.querySelector(DOMSTRINGS.inputDescription).value,
-        value: document.querySelector(DOMSTRINGS.inputValue).value
+        value: parseFloat(document.querySelector(DOMSTRINGS.inputValue).value)
       }
     },
     addListItem: function (obj, type) {
@@ -81,10 +81,10 @@ var UIController = (function () {
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
     },
 
-    clearFields: function() {
+    clearFields: function () {
       var fields = document.querySelectorAll(DOMSTRINGS.inputDescription + ', ' + DOMSTRINGS.inputValue);
       var fieldsArr = Array.prototype.slice.call(fields);
-      fieldsArr.forEach(function(element) {
+      fieldsArr.forEach(function (element) {
         element.value = '';
       })
     },
@@ -106,24 +106,28 @@ var controller = (function (budgetCtrl, UICtrl) {
         ctrlAddItem();
       }
     });
+  };
+  // Calculate the budget and Display the budget on the UI
+  var updateBudget = function () {
 
-  }
+  };
 
   var ctrlAddItem = function () {
     // 1. Get the field input data
     var input = UICtrl.getInput();
     // console.log(input);
+    if (input.description !== '' && !isNaN(input.value) && input.value > 0 ) {
+      // 2. Add the item to the budget controller
+      var newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+      //budgetCtrl.testing();
 
-    // 2. Add the item to the budget controller
-    var newItem = budgetCtrl.addItem(input.type, input.description, input.value);
-    //budgetCtrl.testing();
+      // 3. Add the item to the UI
+      UICtrl.addListItem(newItem, input.type);
+      
 
-    // 3. Add the item to the UI
-    UICtrl.addListItem(newItem, input.type);
+      updateBudget();
+    }
     UICtrl.clearFields();
-
-    // 4. Calculate the budget
-    // 5. Display the budget on the UI
   };
 
   return {
