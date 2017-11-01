@@ -142,6 +142,13 @@ var UIController = (function () {
     return (type === 'exp' ? '-' : '+') + ' ' + stringInt + '.' + numSplit[1];
   };
 
+  // Implement function for looping nodeList
+  var nodeListForEach = function (list, callback) {
+    for(var i = 0; i < list.length; i++) {
+      callback(list[i], i);
+    }
+  };
+
   return {
     getInput: function () {
       return {
@@ -197,12 +204,7 @@ var UIController = (function () {
     },
     displayPercents: function (percentsArr) {
       var fields = document.querySelectorAll(DOMSTRINGS.expensePercLabel);
-      // Implement function for looping nodeList
-      var nodeListForEach = function (list, callback) {
-        for(var i = 0; i < list.length; i++) {
-          callback(list[i], i);
-        }
-      };
+      
 
       nodeListForEach(fields, function(item, index) {
         if(percentsArr[index] > 0 && percentsArr[index] < 100)
@@ -222,6 +224,21 @@ var UIController = (function () {
     },
     getDOMstrings: function () {
       return DOMSTRINGS;
+    },
+    changedType: function () {
+      
+      var fields = document.querySelectorAll(
+        DOMSTRINGS.inputType + ',' +
+        DOMSTRINGS.inputDescription + ',' +
+        DOMSTRINGS.inputValue
+      );
+
+      var button = document.querySelector(DOMSTRINGS.inputButton);
+      button.classList.toggle('red');
+
+      nodeListForEach(fields, function(node) {
+        node.classList.toggle('red-focus');
+      })
     }
   }
 })();
@@ -239,6 +256,7 @@ var controller = (function (budgetCtrl, UICtrl) {
     });
 
     document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+    document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType)
   };
 
   // Calculate the budget and Display the budget on the UI
