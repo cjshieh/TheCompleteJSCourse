@@ -205,7 +205,6 @@ var UIController = (function () {
     displayPercents: function (percentsArr) {
       var fields = document.querySelectorAll(DOMSTRINGS.expensePercLabel);
       
-
       nodeListForEach(fields, function(item, index) {
         if(percentsArr[index] > 0 && percentsArr[index] < 100)
           item.textContent = percentsArr[index] + '%';
