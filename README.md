@@ -6,6 +6,6 @@ Learning note - From udemy course: [The Complete JavaScript Course: Build a Real
 
 This project demostrates how to manipulate html page with DOM and how to write event hanlder.
 
-## Monthly Budgeted Balance Sheet
+## Monthly Budgeted Balance Sheet
 
 This project shows common module pattern in ES5.
